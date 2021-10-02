@@ -1,0 +1,56 @@
+# Using UI.
+# Task 1
+
+
+Navigation Menu > STORAGE > Cloud Storage > Create Bucket.
+Bucket Name > GCP Project ID > Continue.
+
+Use configs as given in the challenge.
+
+> Create.
+
+
+# Task 2
+
+
+Navigation Menu > BIG DATA > Pub/Sub.
+Create Topic > Name: MyTopic > Create Topic.
+
+
+# Task 3
+
+
+Navigation Menu > SERVERLESS > Cloud Functions > Create Function.
+
+Use configs as given in the challenge.
+
+/* Configs that I used.
+
+Name: function-1
+Region: us-east1
+Trigger-Type: Cloud Storage
+Event-Type: Finalize/Create
+Bucket: GCP Project ID
+
+*/
+
+Keep remaining as default.
+> Save > Next.
+
+Copy and paste index.js as given in the challenging by changing const topicName = "MyTopic" on line 16.
+Copy and paste package.json as it is.
+
+Runtime > Node js 14
+Entry Point > thumbnail
+> Deploy.
+
+Download the image from the URL given in the challenge.
+
+Navigation Menu > STORAGE > Cloud Storage > Your Bucket (named as your GCP Project ID) > Upload files > map.jpg.
+
+
+# Task 4
+
+
+Navigation Menu > IAM & Admin
+Username 2 (given in your challenge) > Edit > Delete Role.
