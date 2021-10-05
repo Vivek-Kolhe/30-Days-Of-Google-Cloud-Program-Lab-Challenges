@@ -1,0 +1,100 @@
+# Task 1
+
+
+Navigation Menu > NETWORKING > VPC Network > VPC Networks > Create VPC Network.
+Use configurations as given in the challenge.
+
+
+# Task 2
+
+Navigation Menu > NETWORKING > VPC Network > VPC Networks > Create VPC Network.
+Use configurations as given in the challenge.
+
+
+# Task 3
+
+gcloud auth list
+
+gcloud config list project
+
+gcloud compute instances create bastion --network-interface=network=griffin-dev-vpc, subnet=griffin-dev-mgmt  --network-interface=network=griffin-prod-vpc, subnet=griffin-prod-mgmt --tags=ssh --zone=us-east1-b
+
+gcloud compute firewall-rules create fw-ssh-dev --source-ranges=0.0.0.0/0 --target-tags ssh --allow=tcp:22 --network=griffin-dev-vpc
+
+gcloud compute firewall-rules create fw-ssh-prod --source-ranges=0.0.0.0/0 --target-tags ssh --allow=tcp:22 --network=griffin-prod-vpc
+
+
+# Task 4
+
+
+Navigation Menu > DATABASES > SQL > Create Instance > Choose MySQL.
+Use configurations as given in the challenge.
+
+gcloud sql connect griffin-dev-db --user=root
+Enter instance password.
+Run the given queries as mentioned in the challenge.
+
+
+# Task 5
+
+
+gcloud container clusters create griffin-dev --network griffin-dev-vpc --subnetwork griffin-dev-wp --machine-type n1-standard-4 --num-nodes 2 --zone us-east1-b
+
+gcloud container clusters get-credentials griffin-dev --zone us-east1-b
+
+
+# Task 6
+
+
+gsutil cp -r gs://cloud-training/gsp321/wp-k8s .
+
+cd wp-k8s
+
+sed -i s/username_goes_here/wp_user/g wp-env.yaml
+
+sed -i s/password_goes_here/stormwind_rules/g wp-env.yaml
+
+kubectl apply -f wp-env.yaml
+
+/* Two commands given in the challenge
+
+gcloud iam service-accounts keys create key.json --iam-account=cloud-sql-proxy@$GOOGLE_CLOUD_PROJECT.iam.gserviceaccount.com
+
+kubectl create secret generic cloudsql-instance-credentials --from-file key.json
+
+*/
+
+
+# Task 7
+
+
+Get connection name from
+Navigation Menu > DATABASES > SQL > griffin-web-db.
+
+nano wp-deployment.yaml
+Make changes as mentioned in the challenge.
+
+kubectl create -f wp-deployment.yaml
+
+kubectl create -f wp-service.yaml
+
+
+# Task 8
+
+
+Get external endpoint from
+Navigation Menu > COMPUTE > Kubernetes Engine > Servies & Ingress
+
+Navigation Menu > OPERATIONS > Monitoring > Uptime Checks > Create Uptime Check.
+Use hostname(external endpoint) you got from the previous step.
+
+
+# Task 9
+
+
+Navigation Menu > IAM & Admin > IAM > ADD.
+/*
+Configs:
+New principles: Username 2 provided while starting the challenge.
+Role: Basic > Editor.
+*/
