@@ -110,7 +110,7 @@ printf $(kubectl get secret cd-jenkins -o jsonpath="{.data.jenkins-admin-passwor
 
 Web preview on port 80 and sign in into Jenkins.
 
-gcloud source repon list
+gcloud source repos list
 /* Note the repo url. */
 
 >> In Jenkins:
