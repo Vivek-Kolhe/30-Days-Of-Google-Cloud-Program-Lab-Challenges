@@ -1,0 +1,90 @@
+# Task 1
+
+
+Navigation Menu > NETWORKING > VPC Network > Firewall > (Checkbox) open-access > Delete.
+
+
+# Task 2
+
+
+Navigation Menu > COMPUTE > Compute Engine > VM Instances > (Checkbox) bastion > Start/Resume.
+(In this case Start.)
+
+
+# Task 3
+
+
+Navigation Menu > COMPUTE > Compute Engine > VM Instances > bastion > Edit.
+Add 'bastion' in network tags without quotes and save.
+
+Navigation Menu > NETWORKING > VPC Network > Firewall > Create Firewall Rule.
+
+/* Configurations as given in the challenge (https://cloud.google.com/iap/docs/using-tcp-forwarding).
+
+Name: allow-ingress-from-iap
+Network: acme-vpc
+Direction of traffic: Ingress
+Targets: Specified target tags
+Target tags: bastion
+Source IP ranges: 35.235.240.0/20
+Specified ports and protocols: Check tcp and type 22.
+
+*/
+> Create.
+
+
+# Task 4
+
+
+Navigation Menu > COMPUTE > Compute Engine > VM Instances > juice-shop > Edit.
+Add 'juice-shop' in network tags without quotes and save.
+
+Navigation Menu > NETWORKING > VPC Network > Firewall > Create Firewall Rule.
+
+/* Configurations.
+
+Name: allow-http-ingress
+Network: acme-vpc
+Direction of traffic: Ingress
+Targets: Specified target tags
+Target tags: juice-shop
+Source IP ranges: 0.0.0.0/0
+Specified ports and protocols: Check tcp and type 80.
+
+*/
+> Create.
+
+
+# Task 5
+
+
+Navigation Menu > NETWORKING > VPC Network > VPC Networks.
+Copy IP address ranges of acme-mgmt-subnet.
+
+Navigation Menu > NETWORKING > VPC Network > Firewall > Create Firewall Rule.
+
+/* Configurations.
+
+Name: allow-ssh-internal
+Network: acme-vpc
+Direction of traffic: Ingress
+Targets: Specified target tags
+Target tags: bastion juice-shop
+Source IP ranges: Copied IP address ranges of acme-mgmt-subnet.
+Specified ports and protocols: Check tcp and type 22.
+
+*/
+> Create.
+
+
+# Task 6
+
+
+Navigation Menu > COMPUTE > Compute Engine > VM Instances.
+Copy Internal IP address of juice-box.
+
+Navigation Menu > COMPUTE > Compute Engine > VM Instances > bastion > SSH.
+Run into the SSH terminal.
+ssh <copied internal ip address of juice-box>
+
+yes if prompted.
