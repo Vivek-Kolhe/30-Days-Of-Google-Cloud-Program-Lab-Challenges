@@ -1,0 +1,125 @@
+# Task 1
+
+
+Navigation Menu > STORAGE > Cloud Storage > Create Bucket > Create.
+
+>> In CloudShell:
+bq mk lab
+
+gsutil cp gs://cloud-training/gsp323/lab.csv .
+
+gsutil cp gs://cloud-training/gsp323/lab.schema .
+
+cat lab.schema
+/* Note the Big Query schema. */
+
+Navigation Menu > BIG DATA > Big Query.
+Open your project from the left panel.
+Create table.
+
+/* Configurations.
+
+Create table from: Google Cloud Storage.
+Select file from GCS bucket: Use the link given in the challenge.
+Table name: customers
+Enable edit as text.
+Paste the schema noted above.
+
+*/
+> Create table.
+
+Navigation Menu > BIG DATA > Data Proc > Clusters.
+/* Leave configs as default and click on Create. */
+
+Navigation Menu > BIG DATA > Dataflow > Jobs > Create Job From Template.
+
+/* Configurations as given in the challenge. */
+
+
+# Task 2
+
+Navigation Menu > BIG DATA > Data Proc > Clusters > Go to the cluster you created in previous task. > VM Instances > SSH.
+
+>> In SSH terminal:
+hdfs dfs -cp gs://cloud-training/gsp323/data.txt /data.txt
+
+Navigation Menu > BIG DATA > Data Proc > Jobs > Submit a Job.
+/* Use configs as given in the challenge. */
+
+
+# Task 3
+
+
+Navigation Menu > PRODUCTS > Dataprep.
+Authorize and allow access to google account provided by qwiklabs to trifacta.
+
+Dashboard > Cloud Storage > Choose a file or folder (click on the pencil icon). > Paste the csv file url given in the challenge > Go > Continue.
+/* Perform operations on table as given in the challenge */
+> Run.
+
+
+# Task 4
+
+
+>> In CloudShell:
+gcloud iam service-accounts create my-natlang-sa --display-name "my natural language service account"
+
+gcloud iam service-accounts keys create ~/key.json --iam-account my-natlang-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+
+export GOOGLE_APPLICATION_CREDENTIALS="/home/$USER/key.json"
+
+gcloud auth activate-service-account my-natlang-sa@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com --key-file=$GOOGLE_APPLICATION_CREDENTIALS
+
+gcloud ml language analyze-entities --content="Old Norse texts portray Odin as one-eyed and long-bearded, frequently wielding a spear named Gungnir and wearing a cloak and a broad hat." > result.json
+
+gcloud auth login
+/* Copy the access token and paste it in the cloudshell. */
+
+gsutil cp result.json gs://<YOUR_PROJECT>-marking/task4-cnl.result
+
+/* Create and copy API key. */
+Navigation Menu > API & Services > Credentials > Create Credentials > API Key.
+
+export API_KEY=<copied API key>
+
+nano request.json
+/* Paste the following code. */
+
+{
+  "config": {
+      "encoding":"FLAC",
+      "languageCode": "en-US"
+  },
+  "audio": {
+      "uri":"gs://cloud-training/gsp323/task4.flac"
+  }
+}
+
+curl -s -X POST -H "Content-Type: application/json" --data-binary @request.json "https://speech.googleapis.com/v1/speech:recognize?key=${API_KEY}" > result.json
+
+gsutil cp result.json gs://YOUR_PROJECT-marking/task4-gcs.result
+
+gcloud iam service-accounts create quickstart
+
+gcloud iam service-accounts keys create key.json --iam-account quickstart@${GOOGLE_CLOUD_PROJECT}.iam.gserviceaccount.com
+
+gcloud auth activate-service-account --key-file key.json
+
+gcloud auth print-access-token
+/* Copy the access token. */
+
+export ACCESS_TOKEN=<copied access token>
+
+nano request.json
+/* Clear out existing code and paste the following code. */
+
+{
+   "inputUri":"gs://spls/gsp154/video/chicago.mp4",
+   "features": [
+       "TEXT_DETECTION"
+   ]
+}
+
+curl -s -H 'Content-Type: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" 'https://videointelligence.googleapis.com/v1/videos:annotate' -d @request.json
+
+curl -s -H 'Content-Type: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" 'https://videointelligence.googleapis.com/v1/operations/OPERATION_FROM_PREVIOUS_REQUEST' > result1.json
