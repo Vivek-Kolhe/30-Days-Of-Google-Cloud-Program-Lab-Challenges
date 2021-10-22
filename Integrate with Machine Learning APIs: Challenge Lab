@@ -1,0 +1,83 @@
+# Task 1
+
+
+/* Run into CloudShell. */
+export PROJECT=<GCP Project ID>
+
+gcloud iam service-accounts create my-account --display-name my-account
+
+gcloud projects add-iam-policy-binding $PROJECT --member=serviceAccount:my-account@$PROJECT.iam.gserviceaccount.com --role=roles/bigquery.admin
+
+gcloud projects add-iam-policy-binding $PROJECT --member=serviceAccount:my-account@$PROJECT.iam.gserviceaccount.com --role=roles/storage.admin
+
+
+# Task 2
+
+
+gcloud iam service-accounts keys create key.json --iam-account=my-account@$PROJECT.iam.gserviceaccount.com
+
+export GOOGLE_APPLICATION_CREDENTIALS=key.json
+
+
+# Task 3
+
+
+gsutil cp gs://$PROJECT/analyze-images.py .
+
+Open editor from CloudShell instead of nano or vim and start modifying analyze-images.py.
+
+/* Add below statements with the other import statements.
+
+import io
+from google.cloud import vision_v1
+
+*/
+
+/* Paste below lines after comments starting with #TBD: 
+
+client = vision.ImageAnnotatorClient()
+
+image = vision_v1.types.Image(content=file_content)
+response = client.text_detection(image=image)
+
+*/
+
+/* Make sure to indent the code properly. 
+And back to the CloudShell.
+*/
+
+python3 analyze-images.py $PROJECT $PROJECT
+
+
+# Task 4
+
+
+/* Back in the editor paste the following statement above line: translated_text = translation['translatedText']
+
+translation = translate_client.translate(desc, target_language='en')
+
+*/
+
+/* Paste the following statement above line: assert errors == []
+
+errors = bq_client.insert_rows(table, rows_for_bq)
+
+It already commented in the file, you can just remove # from the line. */
+
+/* Make sure to indent the code properly. 
+And back to the CloudShell.
+*/
+
+python3 analyze-images.py $PROJECT $PROJECT
+
+
+# Task 5
+
+
+Navigation Menu > BIG DATA > Big Query > Done.
+
+/* Paste the given query in the challenge and run.
+
+SELECT locale,COUNT(locale) as lcount FROM image_classification_dataset.image_text_detail GROUP BY locale ORDER BY lcount DESC
+
+*/
