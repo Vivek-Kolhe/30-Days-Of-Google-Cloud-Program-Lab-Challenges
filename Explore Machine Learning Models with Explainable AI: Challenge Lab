@@ -1,0 +1,64 @@
+# Task 1
+
+
+Navigation Menu > Storage > Cloud Storage > Create Bucket.
+
+Navigation Menu > ARTIFICIAL INTELLIGENCE > AI Platform > Notebooks > Create Notebook.
+/* Use configs as given in the challenge. */
+
+
+# Task 2
+
+
+/* Open Jupyter Notebook which you created in the last task. */
+> Terminal.
+
+/* Run the following commad. */
+
+git clone https://github.com/GoogleCloudPlatform/training-data-analyst
+
+In notebook navigate to: training-data-analyst/quests/dei and open what-if-tool-challenge.ipynb.
+
+Running first 2 cells will complete the task.
+
+
+# Task 3
+
+
+/* Paste the following code into the 10th cell and start running the cell. Make sure you've executed all previous cells.
+
+model = Sequential()
+model.add(layers.Dense(8, input_dim=input_size))
+model.add(layers.Dense(1, activation='sigmoid'))
+model.compile(optimizer='sgd', loss='mse')
+model.fit(train_data, train_labels, batch_size=32, epochs=10)
+
+*/
+
+/* Paste the following code into the 13th cell and start running the cell.
+
+limited_model = Sequential()
+limited_model.add(layers.Dense(8, input_dim=input_size))
+limited_model.add(layers.Dense(1, activation='sigmoid'))
+limited_model.compile(optimizer='sgd', loss='mse')
+limited_model.fit(limited_train_data, limited_train_labels, batch_size=32, epochs=10)
+
+*/
+
+
+# Task 4
+
+
+Fill in the GCP_PROJECT and MODEL_BUCKET in cell 16 and start executing remaining cells.
+
+/* Back in GCP. */
+Navigation Menu > ARTIFICIAL INTELLIGENCE > AI Platform > Models.
+> Create Model.
+/* Use model name as given in the challenge. */
+/* Click on the model created. */
+> Create version.
+/* Use configs as given in the challenge. */
+
+Repeat same for the second model.
+
+/* This can also be done by creating further cells in the notebook. For code refer to the previous labs in the same quest. */
